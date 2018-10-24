@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Load our commands
+for sourcefile in ./commands/*; do
+   source "$sourcefile"
+done
+
+# Make sure we can connect to the docker machine
+ensure_connected
+
+if [ -z "$1" ]; then
+
+	# No options specified, output command
+
+	help_command
+
+elif [ "$1" == "start" ]; then
+
+	# Run start command
+
+	start_command $2
+
+elif [ "$1" == "stop" ]; then
+
+	# Run stop command
+
+	stop_command $2
+
+elif [ "$1" == "monitor" ]; then
+
+	# Run monitor command
+
+	monitor_command $2 $3 $4
+
+elif [ "$1" == "logs" ]; then
+
+	# Get docker logs
+
+	docker_compose_logs
+
+else
+
+	# Invalid command, show help
+
+	echo "Invalid option '$1'"
+	help_command
+
+fi
